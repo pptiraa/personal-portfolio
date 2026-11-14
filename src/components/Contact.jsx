@@ -1,10 +1,9 @@
+
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import {
   Mail,
   MessageCircle,
-  Linkedin,
-  Github,
   Instagram,
   MapPin,
   Send,
@@ -13,15 +12,30 @@ import { profile } from "../data/portfolioData";
 import useReveal from "../hooks/useReveal";
 
 const CONTACT_ITEMS = [
-  { icon: Mail, label: "Email", value: "puputirasetyawati@gmail.com", href: `mailto:${"puputirasetyawati@gmail.com"}` },
-  { icon: MessageCircle, label: "WhatsApp", value: "085727125350", href: "https://wa.me/qr/WPWJ6X424FSBK1" },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "puputirasetyawati@gmail.com",
+    href: "mailto:puputirasetyawati@gmail.com",
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: "085727125350",
+    href: "https://wa.me/6285727125350",
+  },
   {
     icon: Instagram,
     label: "Instagram",
-    value: "@ira_zip",
-    href: "https://www.instagram.com/miegraine_zip?igsi=ZTIyN2NoMmJndWNo&utm_source=qr",
+    value: "@puputiraa_",
+    href: "https://www.instagram.com/puputiraa_",
   },
-  { icon: MapPin, label: "Location", value: profile.location, href: null },
+  {
+    icon: MapPin,
+    label: "Location",
+    value: profile.location,
+    href: null,
+  },
 ];
 
 const initialForm = {
@@ -44,29 +58,34 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setStatus("sending");
+    e.preventDefault();
+    setStatus("sending");
 
-  try {
-    await emailjs.send(
-      "service_o4vrf7l",
-      "template_5ojtixk",
-      {
-        name: form.name,
-        email: form.email,
-        subject: form.subject,
-        message: form.message,
-      },
-      "0I7zzMTAdgagdbaJa"
-    );
+    try {
+      await emailjs.send(
+        "service_o4vrf7l",
+        "template_5ojtixk",
+        {
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          time: new Date().toLocaleString("id-ID"),
+          message: form.message,
+        },
+        "0I7zzMTAdgagdbaJa"
+      );
 
-    setStatus("sent");
-    setForm(initialForm);
-  } catch (error) {
-    console.error("Email gagal dikirim:", error);
-    setStatus("error");
-  }
-};
+      setStatus("sent");
+      setForm(initialForm);
+
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      console.error("Status:", error?.status);
+      console.error("Text:", error?.text);
+
+      setStatus("error");
+    }
+  };
 
   return (
     <section
@@ -93,7 +112,7 @@ export default function Contact() {
 
         <div className="mt-12 grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
 
-          {/* Left: info + map */}
+          {/* Contact Information */}
           <div className="reveal reveal-delay-1 space-y-3">
 
             {CONTACT_ITEMS.map(({ icon: Icon, label, value, href }) => {
@@ -144,7 +163,7 @@ export default function Contact() {
 
           </div>
 
-          {/* Right: form */}
+          {/* Contact Form */}
           <form
             onSubmit={handleSubmit}
             className="reveal reveal-delay-2 rounded-xl2 bg-[#fffaf2] border border-[#e5d5bd] p-6 sm:p-8 shadow-softer"
@@ -166,7 +185,7 @@ export default function Contact() {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="puputirasetyawati@gmail.com"
+                placeholder="Your email address"
                 required
               />
             </div>
@@ -202,7 +221,7 @@ export default function Contact() {
               />
             </div>
 
-            {/* Send button */}
+            {/* Send Button */}
             <button
               type="submit"
               disabled={status === "sending"}

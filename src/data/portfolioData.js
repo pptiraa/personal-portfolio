@@ -119,7 +119,7 @@ export const skills = [
 
 export const experience = [
     {
-    year: "June 2026 — Present",
+    year: "June 2026 — September 2026",
     role: "Back Office Admin",
     place: "PT Maksindo Mesin",
     description:
